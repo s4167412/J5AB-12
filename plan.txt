@@ -1,0 +1,150 @@
+title
+
+    // ARROWS INDICATE MOVEMENT DIRECTIONS (SHOWN ON GRID BORDERS) // Roughly to scale, each character on Y: equal to 1 space, each character on X: equal to 4 spaces
+    +---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+    |   "Tutoria"       \______ | / "Rolling Meadows"       |  "Checkpoint"             |  "Upper North"            |  "Drooped Valley"         |
+    |         Starting Location |                           |        |__|               |                           |         Unreachable       |
+    |                           >                           >      ___     ____________ >                           |                           |
+    |                           >                           <    _/ _/    |             <                           |                           |
+    | \________________________ |                           |  _/ _/      |             |                           |                           |
+    | . . . . . . . . . . . . . | \________________________ | /  /        |             |                           |                           |
+    +---------------------------+---------------------------+------------vA-------------+---------------------------+---------------------------+
+    |   "Mountain Swept Lake NW"|   "Mountain Swept Lake NE"|  "Loffn"    |             |  "Ridgestus"              |   "Faltered Line"         |
+    | . . . . Unreachable . . . | . . . . Unreachable . . . | .|          |____________ > _____                     |                           |
+    |  . . . . . . . . . . . .  |  . . . . . . . . . . . .  |  .\         |             <                           |                           |
+    | . . . . . . . . . . . . . | . . . . . . . . . . . . . | . /         |             |                           |                           |
+    |  . . . . . . . . . . . .  |  . . . . . . . . . . . .  | _/          |             |                           |                           |
+    | . . . . . . . . . . . . . | . . . . . . . . . . . . / |             |             |                           |                           |
+    +---------------------------+---------------------------+------------vA-------------+---------------------------+---------------------------+
+    |   "Mountain Swept Lake SW"|   "Mountain Swept Lake SE"|  "Freehorn" |             |  "City Center"            |   "                       |
+    | . . . . Unreachable . . . | . . . . Unreachable .  /  |             |             |                           |                           |
+    |  . . . . . . . . . . . .  |  . . . . . . . . . .  /   |             |             |                           |                           |
+    | . . . . . . . . . . . . . | . . . . . .  /  . .  //   |                           |                           |                           |
+    |  . . . . . . . . . . . .  |  . . . .  ///  . . . ///  |                           |                           |                           |
+    | . . . . . . . . . . . . . | . _______////   .  /////  |                           |                           |                           |
+    +---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+    | \ "[REDACTED]" _ . . .  _ | _/ "Great Range" ///////  |                           |                           |                           |
+    |                 \______/  |         Unreachable /     |                           |                           |                           |
+    |                           |         //    /////       |                           |                           |                           |
+    |                           |       //////////          |                           |                           |                           |
+    | _________________________ | ____///////               |                           |                           |                           |
+    | _________________________ | ___ |////                 |                           |                           |                           |
+    +---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+    |    "Beyond"               |    ||  "Veil's Wall"      |                           |                           |                           |
+    |         THE END?          |    ||                     |                           |                           |                           |
+    |                           >    **                     |                           |                           |                           |
+    |                           <    ||                     |                           |                           |                           |
+    |                           |   \||\\\                  |                           |                           |                           |
+    |                           |    \\\\\\\\\              |                           |                           |                           |
+    +---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+
+PROTOTYPE ROAD MAP
+- UI data auto populated
+- Basic inventory management
+- Working save system
+
+MAX NAME LENGTH: 15 CHARACTERS, to allow correct allignment plus room for coins
+
+- ITEMS
+    - Potions (Helps win rounds): (Used before a round)
+        - Slowdown Potion (I-III): Slows enemy typing speed by 0.5x.
+        - Sheild Potion (I-III): Grants a temporary sheild that blocks 10-30 damage
+        -
+
+    - Scrolls (Helps win battles/makes battles more rewarding): (Used before a battle)
+        - Cheaters' Scroll: Shows the words 3 seconds before the round begins
+        - Simple Scroll: Guarantees easy words for the first (cannot be overriten by difficulty)
+        - Greed Scroll: Doubles coin rewards for the battle BUT also doubles coin loss on defeat
+
+    - Weapons (Speeds up battles): (Automatic, deals damage to enemy based on tier | If enemy is killed by a weapon, coin reward is divided by 4)
+        - Twig (Starting Weapon): 3 damage
+        - 
+
+
+- DIFFICULTY
+    - Player chooses a difficulty at the start of the game
+    - Easy: Enemies type at normal speed, more likely to get easier words, 2-4 words per round, multiplier 3x
+    - Medium: Enemies type 1.5x faster, more likely to get medium difficulty words, 3-5 words per round, multiplier 2x
+    - Hard: Enemies type 2x faster, more likely to get harder words, 4-6 words per round, multiplier 1.5x
+    - Hardcore: Enemies type 2.5x faster, guaranteed hard words, 4-6 words per round, if player loses a battle the game is over, multiplier 1x
+
+    - Word difficulty simply means how long the word is
+
+- COMBAT
+    - Combat is done in rounds, each round the player and enemy get a set of words to type.
+    - After player is finished, damage is calculated and applied to the loser (Ties void the round)
+    - Battle repeats until one opponent is killed
+
+    - Damage formula: (((player time(ms) - enemy time(ms)) * difficulty multiplier) / 100)
+        - So: player (1500ms) - enemy (3000ms) * 3 (easy) / 100 = 45 damage
+
+    - If player wins the battle,
+        - Player is rewarded with coins based on (level of enemy * difficulty multiplier)
+        - Player rolls for a random item (10% * difficulty multiplier)
+    - If player loses the battle,
+        - Player loses 1/3 of their coins (rounded down)
+            - Unless hardcore, then game over
+
+- SHOPS
+    - Each shop has the same items and prices
+
+
+
+- TUTORIAL "Tutoria"
+    - Starting location
+    - Introduces player to basic mechanics
+
+    Washed up on the shore, old wizard man nearby.
+    He is being attacked,
+    "Help me!"
+    "Quickly, type these words faster than that goblin!"
+    - Battle with Goblin (Level 1)
+    "Thank you, im badly hurt ... I have a large twig stabbing through my leg, I need you to pull it out"
+    - Player gains twig
+    "Look out! another goblin, quick poke him with the twig, he looks weak!"
+    - Battle with Goblin (Level 1) INTERUPTED BY INSTANT KILL by weapon
+    "Oh yeah, weapons like that twig deal damage before you even start typing, however if you kill an enemy with it, you get less coins"
+    "... Anyway I dont have much time, I was sent here by the creator to guide you on your journey, but he seemed to have spawned me in a twig"
+    "Venture east, there you will find [town], its much safer there..."
+    - Wizard dies, option to loot him. Gain guilt (no effect), 5 coins, 1 health potion (I)
+    *I should head east to town*
+
+
+- Options
+   -
+
+
+UI
+(FULL)
+50x10 (map)
+
+-> N/S adjust by 1
+-> E/W adjust by 4
+                                                           vv ARROWS ONLY SHOWN WHEN NEEDED 
++------------------------------------------------+--------------+---------------------------------------------------------+
+|            _____ _____ ____ _____              |              |     *          ____        __  __  __     __      *     |
+|           |_   _| ____/ ___|_   _|             | item name << |    /          / __ )____ _/ /_/ /_/ /__  / /       \    |
+|             | | |  _| \___ \ | |               | item name    |  *|          / __  / __ `/ __/ __/ / _ \/ /         |*  |
+|             | | | |___ ___) || |               | item name    |  ||         / /_/ / /_/ / /_/ /_/ /  __/_/          ||  |
+|             |_| |_____|____/_|_|  _            |              |  ||        /_____/\__,_/\__/\__/_/\___(_)           ||  |
+|              / \  |  _ \| ____|  / \           | item name    |  \\======_____________________________________======//  |
+|             / _ \ | |_) |  _|   / _ \          | item name    |            (CharacterName) vs lvl xx (enemy)            |
+|            / ___ \|  _ <| |___ / ___ \         | item name    |               Difficulty [x] [x] [x] [x]                |
+|           /_/   \_\_| \_\_____/_/   \_\        |              |                                                         |
++------------------------------------------------+--------------+            Your speed - 1894ms                          |
+| <playername>     || XX/YY HP    || COINS: ZZZZ |      ^^      |                         1682ms - Enemy Speed            |
+|    ----------------------------------------    |              |                                                         |      < COLORED TO SHOW HEALTH
+|                                                | <          > |                        You Lost                         |  < USED TO SHOW WHICH DIRECTIONS CURRENT AREA CAN BE LEFT BY (hidden if direction is not an option)
+|            LVL: CCC || XX/YY HP || <enemyname> | <          > |                                                         |
+|    ----------------------------------------    |              | Words to type:                                          |  < COLORED TO SHOW HEALTH
+| Tip: (random tip)                              |      vv      |   jfhsajfhsa shfsaf asfshf gpoinsa (Bolded words)       |
++------------------------------------------------+--------------+---------------------------------------------------------+
+|                   North (w)                    |              |
+|                                                |              |
+|    West (a)     Inventory (e)     East (d)     |              |
+|                                                |              |
+|                   South (s)                    |              |
+|  Interact (q)                  Save & Exit (0) |              |
+|
+| Make a choice, (characterName)!     < Variations rarely happen, So what will it be?, (direction) is quite nice this time of year, I dont have all day(,) pick something!, 
+| >> ...
