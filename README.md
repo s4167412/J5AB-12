@@ -7,6 +7,9 @@ So this project was a disaster from the start, while the end product is just a d
 
 With that said I will complete the game by the presentation date, to atleast prove I can do it, even if that means nothing to you or the grade I receive. At this point its about proving to myself its possible while doing this project in a way it was never intended to be done.
 And thanks for reading my email asking for an extension, that defiantly made this alot less stressful :/
+
+As I work to complete this project code will be visible here: https://github.com/s4167412/J5AB-12
+
 - CY
 
 
